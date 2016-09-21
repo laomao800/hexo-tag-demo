@@ -21,4 +21,8 @@ Syntax:
 {% enddemo %}
 ```
 
-Live Example: [example.md](https://github.com/laomao800/hexo-tag-demo/blob/master/example.md)
+Live Example: [example.md](https://raw.githubusercontent.com/laomao800/hexo-tag-demo/master/example.md)
+
+Output Screenshot:
+
+![Example Output Screenshot](https://raw.githubusercontent.com/laomao800/hexo-tag-demo/master/screenshot.png)
