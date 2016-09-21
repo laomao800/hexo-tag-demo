@@ -23,6 +23,44 @@ Syntax:
 
 Live Example: [example.md](https://raw.githubusercontent.com/laomao800/hexo-tag-demo/master/example.md)
 
+```html
+{% demo hexo-tag-demo title %}
+<intro>
+An example for hexo-tag-demo.
+
+The `<intro>` tag supports __markdown__.
+</intro>
+
+<template>
+  <div id="colorbox"></div>
+  <button id="demo-button">Click Me</button>
+</template>
+
+<script>
+  document.getElementById('demo-button').onclick = function() {
+    var randomColor = '#' + Math.random().toString().substr(2,6);
+    document.getElementById('colorbox').innerHTML = randomColor;
+    document.getElementById('colorbox').style.background = randomColor;
+  }
+</script>
+
+<style>
+  #colorbox {
+    border: 1px solid #ddd;
+    height: 150px;
+    width: 200px;
+    line-height: 150px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  #demo-button {
+    padding: 5px 10px;
+  }
+</style>
+{% enddemo %}
+```
+
 Output Screenshot:
 
 ![Example Output Screenshot](https://raw.githubusercontent.com/laomao800/hexo-tag-demo/master/screenshot.png)
