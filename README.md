@@ -24,7 +24,7 @@ Syntax:
 Live Example: [example.md](https://raw.githubusercontent.com/laomao800/hexo-tag-demo/master/example.md)
 
 ```html
-{% demo hexo-tag-demo title %}
+{% demo hexo-tag-demo %}
 <intro>
 An example for hexo-tag-demo.
 

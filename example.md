@@ -2,7 +2,7 @@
 title: hexo-tag-demo-example
 ---
 
-{% demo hexo-tag-demo title %}
+{% demo hexo-tag-demo %}
 <intro>
 An example for hexo-tag-demo.
 
