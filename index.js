@@ -48,7 +48,7 @@ hexo.extend.tag.register('demo', function(args, content) {
   }
 
   // add code wrap element
-  if ($template.length || $script.length || $style.legnth) {
+  if ($template.length || $script.length || $style.length) {
     $result('.demobox').append(`<div class="demobox-code-wrap"></div>`);
   }
 
