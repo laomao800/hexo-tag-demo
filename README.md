@@ -64,3 +64,25 @@ The `<intro>` tag supports __markdown__.
 Output Screenshot:
 
 ![Example Output Screenshot](https://raw.githubusercontent.com/laomao800/hexo-tag-demo/master/screenshot.png)
+
+## New in 0.2.0
+
+`<template>`, `<script>`, `<style>` tag support `for-show` and `for-run` attribute.
+
+In some special cases, if you need to show some code different from the running demo code, you can use this two attributes.
+
+Set the `for-run` will just running in the demo area but not showing in the expansion. Set the `for-show` attribute will show the code just in the expansion but not running it.
+
+Example:
+
+```html
+{% demo %}
+<template for-run>
+  <button onclick="alert('something')">alert</button>
+</template>
+
+<template for-show>
+  <button>know nothing</button>
+</template>
+{% enddemo %}
+```
