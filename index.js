@@ -24,10 +24,24 @@ hexo.extend.filter.register('before_post_render', function(data) {
 // register the demo tag
 hexo.extend.tag.register('demo', function(args, content) {
   const $content  = cheerio.load(content, { decodeEntities: false });
-  const $template = $content('template');
   const $intro    = $content('intro');
-  const $script   = $content('script');
-  const $style    = $content('style');
+
+  let $templateForShow = $content('template[for-show]');
+  let $templateForRun  = $content('template[for-run]');
+  let $scriptForShow   = $content('script[for-show]');
+  let $scriptForRun    = $content('script[for-run]');
+  let $styleForShow    = $content('style[for-show]');
+  let $styleForRun     = $content('style[for-run]');
+
+  if (!$templateForShow.length && !$templateForRun.length) {
+    $templateForShow = $templateForRun = $content('template');
+  }
+  if (!$scriptForShow.length && !$scriptForRun.length) {
+    $scriptForShow = $scriptForRun = $content('script');
+  }
+  if (!$styleForShow.length && !$styleForRun.length) {
+    $styleForShow = $styleForRun = $content('style');
+  }
 
   const $result = cheerio.load(`
     <div class="demobox">
@@ -42,38 +56,51 @@ hexo.extend.tag.register('demo', function(args, content) {
   if (args[0]) {
     $result('.demobox-meta').append(`<div class="demobox-name">${args[0]}</div>`);
   }
+
   if ($intro.length) {
     const introcode = stripIndent($intro.html()).trim();
     $result('.demobox-meta').append(`<div class="demobox-intro">${marked(introcode)}</div>`);
   }
 
   // add code wrap element
-  if ($template.length || $script.length || $style.length) {
+  if ($templateForShow.length || $scriptForShow.length || $styleForShow.length) {
     $result('.demobox').append(`<div class="demobox-code-wrap"></div>`);
   }
 
-  // demo html
-  if ($template.length) {
-    const htmlcode = stripIndent($template.html()).trim();
-    const highlightCode = highlight(htmlcode, { lang: 'html', caption: '<span>html</span>' });
-    $result('.demobox-result').append(htmlcode);
+  // html for show
+  if ($templateForShow.length) {
+    const code = stripIndent($templateForShow.html()).trim();
+    const highlightCode = highlight(code, { lang: 'html', caption: '<span>html</span>' });
     $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-html">${highlightCode}</div>`);
   }
 
-  // demo script
-  if ($script.length) {
-    const scriptcode = stripIndent($script.html()).trim();
-    const highlightCode = highlight(scriptcode, { lang: 'javascript', caption: '<span>javascript</span>' });
-    $result('.demobox-result').append(`<script>${scriptcode}</script>`);
+  // script for show
+  if ($scriptForShow.length) {
+    const code = stripIndent($scriptForShow.html()).trim();
+    const highlightCode = highlight(code, { lang: 'javascript', caption: '<span>javascript</span>' });
     $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-script">${highlightCode}</div>`);
   }
 
-  // demo style
-  if ($style.length) {
-    const stylecode = stripIndent($style.html()).trim();
-    const highlightCode = highlight(stylecode, { lang: 'css', caption: '<span>css</span>' });
-    $result('.demobox-result').append(`<style>${stylecode}</style>`);
+  // style for show
+  if ($styleForShow.length) {
+    const code = stripIndent($styleForShow.html()).trim();
+    const highlightCode = highlight(code, { lang: 'css', caption: '<span>css</span>' });
     $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-style">${highlightCode}</div>`);
+  }
+
+  // html for run
+  if ($templateForRun.length) {
+    $result('.demobox-result').append($templateForRun.html());
+  }
+
+  // script for run
+  if ($scriptForRun.length) {
+    $result('.demobox-result').append(`<script>${$scriptForRun.html()}</script>`);
+  }
+
+  // style for run
+  if ($styleForRun.length) {
+    $result('.demobox-result').append(`<style>${$styleForRun.html()}</style>`);
   }
 
   return $result.html();
