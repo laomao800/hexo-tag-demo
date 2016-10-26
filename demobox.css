@@ -87,7 +87,7 @@
   border-radius: 6px;
 }
 
-.demobox-expand .demobox-meta .collapse {
+.demobox-expand .demobox-meta-collapse {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
