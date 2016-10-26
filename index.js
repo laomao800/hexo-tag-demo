@@ -45,60 +45,51 @@ hexo.extend.tag.register('demo', function(args, content) {
     $styleForShow = $styleForRun = $content('style');
   }
 
-  let demoboxTemplate = '';
-  if ($templateForShow.length || $scriptForShow.length || $styleForShow.length) {
-    demoboxTemplate = `
-      <div class="demobox">
-        <div class="demobox-result"></div>
-        <div class="demobox-meta">
-          <span class="collapse" onClick="$(this).parents('.demobox').toggleClass('demobox-expand')"></span>
-        </div>
-      </div>
-    `;
-  } else {
-    demoboxTemplate += `
-      <div class="demobox">
-        <div class="demobox-result"></div>
-      </div>
-    `;
-  }
+  const $result = cheerio.load(`
+    <div class="demobox">
+      <div class="demobox-result"></div>
+    </div>
+  `);
 
-  const $result = cheerio.load(demoboxTemplate);
+  // expand
+  if (args[0] || $intro.length || $templateForShow.length || $scriptForShow.length || $styleForShow.length) {
+    $result('.demobox').append('<div class="demobox-meta"></div>');
 
-  // demo meta
-  if (args[0]) {
-    $result('.demobox-meta').append(`<div class="demobox-name">${args[0]}</div>`);
-  }
+    if (args[0]) {
+      $result('.demobox-meta').append(`<div class="demobox-name">${args[0]}</div>`);
+    }
 
-  if ($intro.length) {
-    const introcode = stripIndent($intro.html()).trim();
-    $result('.demobox-meta').append(`<div class="demobox-intro">${marked(introcode)}</div>`);
-  }
+    if ($intro.length) {
+      const introcode = stripIndent($intro.html()).trim();
+      $result('.demobox-meta').append(`<div class="demobox-intro">${marked(introcode)}</div>`);
+    }
 
-  // add code wrap element
-  if ($templateForShow.length || $scriptForShow.length || $styleForShow.length) {
-    $result('.demobox').append(`<div class="demobox-code-wrap"></div>`);
-  }
+    // code for show
+    if ($templateForShow.length || $scriptForShow.length || $styleForShow.length) {
+      $result('.demobox-meta').prepend('<span class="demobox-meta-collapse" onClick="jQuery(this).parents(\'.demobox\').toggleClass(\'demobox-expand\')"></span>');
+      $result('.demobox').append('<div class="demobox-code-wrap"></div>');
 
-  // html for show
-  if ($templateForShow.length) {
-    const code = stripIndent($templateForShow.html()).trim();
-    const highlightCode = highlight(code, { lang: 'html', caption: '<span>html</span>' });
-    $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-html">${highlightCode}</div>`);
-  }
+      // html for show
+      if ($templateForShow.length) {
+        const code = stripIndent($templateForShow.html()).trim();
+        const highlightCode = highlight(code, { lang: 'html', caption: '<span>html</span>' });
+        $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-html">${highlightCode}</div>`);
+      }
 
-  // script for show
-  if ($scriptForShow.length) {
-    const code = stripIndent($scriptForShow.html()).trim();
-    const highlightCode = highlight(code, { lang: 'javascript', caption: '<span>javascript</span>' });
-    $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-script">${highlightCode}</div>`);
-  }
+      // script for show
+      if ($scriptForShow.length) {
+        const code = stripIndent($scriptForShow.html()).trim();
+        const highlightCode = highlight(code, { lang: 'javascript', caption: '<span>javascript</span>' });
+        $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-script">${highlightCode}</div>`);
+      }
 
-  // style for show
-  if ($styleForShow.length) {
-    const code = stripIndent($styleForShow.html()).trim();
-    const highlightCode = highlight(code, { lang: 'css', caption: '<span>css</span>' });
-    $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-style">${highlightCode}</div>`);
+      // style for show
+      if ($styleForShow.length) {
+        const code = stripIndent($styleForShow.html()).trim();
+        const highlightCode = highlight(code, { lang: 'css', caption: '<span>css</span>' });
+        $result('.demobox-code-wrap').append(`<div class="demobox-code demobox-style">${highlightCode}</div>`);
+      }
+    }
   }
 
   // html for run

@@ -1,6 +1,6 @@
 {
   "name": "hexo-tag-demo",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Create a demo area (html, css, javascript) in the post content.",
   "main": "index.js",
   "scripts": {

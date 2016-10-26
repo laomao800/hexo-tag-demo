@@ -24,7 +24,7 @@
   border-top: 1px solid #e9e9e9;
 }
 
-.demobox-meta .collapse {
+.demobox-meta-collapse {
   position: absolute;
   right: 20px;
   top: -12px;
@@ -44,12 +44,12 @@
   border-radius: 100%;
 }
 
-.demobox-meta .collapse:hover {
+.demobox-meta-collapse:hover {
   border-color: #d8d8d8;
   background-color: #f3f3f3;
 }
 
-.demobox-meta .collapse:after {
+.demobox-meta-collapse:after {
   content: '>';
   font-family: sans-serif;
 }
