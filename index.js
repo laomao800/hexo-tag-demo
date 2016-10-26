@@ -45,14 +45,25 @@ hexo.extend.tag.register('demo', function(args, content) {
     $styleForShow = $styleForRun = $content('style');
   }
 
-  const $result = cheerio.load(`
-    <div class="demobox">
-      <div class="demobox-result"></div>
-      <div class="demobox-meta">
-        <span class="collapse" onClick="$(this).parents('.demobox').toggleClass('demobox-expand')"></span>
+  let demoboxTemplate = '';
+  if ($templateForShow.length || $scriptForShow.length || $styleForShow.length) {
+    demoboxTemplate = `
+      <div class="demobox">
+        <div class="demobox-result"></div>
+        <div class="demobox-meta">
+          <span class="collapse" onClick="$(this).parents('.demobox').toggleClass('demobox-expand')"></span>
+        </div>
       </div>
-    </div>
-  `);
+    `;
+  } else {
+    demoboxTemplate += `
+      <div class="demobox">
+        <div class="demobox-result"></div>
+      </div>
+    `;
+  }
+
+  const $result = cheerio.load(demoboxTemplate);
 
   // demo meta
   if (args[0]) {
