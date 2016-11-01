@@ -15,6 +15,17 @@
   padding: 30px 20px;
 }
 
+.demobox-result:before {
+  content: '';
+  display: table;
+}
+
+.demobox-result:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
 .demobox-meta {
   position: relative;
   padding: 15px 20px 10px;
