@@ -16,7 +16,7 @@ fs.copyFile(styleUri, path.resolve(baseDir, hexo.config.public_dir, 'css', style
 
 // insert the style file before the post content
 hexo.extend.filter.register('before_post_render', function(data) {
-  if ((/{%\s*demo[\s\w\u4e00-\u9fa5]*\s*%}/).test(data.content)) {
+  if ((/{%\s*demo/).test(data.content)) {
     const styleLink = `{% raw %}<link rel="stylesheet" href="${hexo.config.root}css/${styleFile}" />{% endraw %}`;
     data.content = styleLink + data.content;
     return data;
