@@ -25,24 +25,26 @@ hexo.extend.filter.register('before_post_render', function(data) {
 
 // register the demo tag
 hexo.extend.tag.register('demo', function(args, content) {
-  const $content  = cheerio.load(content, { decodeEntities: false });
-  const $intro    = $content('intro');
+  const _wrapName = `wrap-${Math.random().toString(32).substr(2, 4)}`;
+  const $ = cheerio.load(`<div class="${_wrapName}">${content}</div>`, { decodeEntities: false });;
+  const $content = $(`.${_wrapName}`);
 
-  let $templateForShow = $content('template[for-show]');
-  let $templateForRun  = $content('template[for-run]');
-  let $scriptForShow   = $content('script[for-show]');
-  let $scriptForRun    = $content('script[for-run]');
-  let $styleForShow    = $content('style[for-show]');
-  let $styleForRun     = $content('style[for-run]');
+  const $intro = $content.find('intro');
+  let $templateForShow = $content.find(`> template[for-show]`);
+  let $templateForRun  = $content.find(`> template[for-run]`);
+  let $scriptForShow   = $content.find(`> script[for-show]`);
+  let $scriptForRun    = $content.find(`> script[for-run]`);
+  let $styleForShow    = $content.find(`> style[for-show]`);
+  let $styleForRun     = $content.find(`> style[for-run]`);
 
   if (!$templateForShow.length && !$templateForRun.length) {
-    $templateForShow = $templateForRun = $content('template');
+    $templateForShow = $templateForRun = $content.find('> template');
   }
   if (!$scriptForShow.length && !$scriptForRun.length) {
-    $scriptForShow = $scriptForRun = $content('script');
+    $scriptForShow = $scriptForRun = $content.find('> script');
   }
   if (!$styleForShow.length && !$styleForRun.length) {
-    $styleForShow = $styleForRun = $content('style');
+    $styleForShow = $styleForRun = $content.find('> style');
   }
 
   const $result = cheerio.load(`
