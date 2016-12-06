@@ -101,7 +101,7 @@ hexo.extend.tag.register('demo', function(args, content) {
 
   // script for run
   if ($scriptForRun.length) {
-    $result('.demobox-result').append(`<script>${$scriptForRun.html()}</script>`);
+    $result('.demobox-result').append(`<script>(function(){${$scriptForRun.html()}})();</script>`);
   }
 
   // style for run
